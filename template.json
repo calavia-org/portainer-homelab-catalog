@@ -1,0 +1,141 @@
+{
+  "version": "2",
+  "templates": [
+    {
+      "id": 1,
+      "type": 3,
+      "title": "Watchtower",
+      "description": "Automatically update running Docker containers to the latest image version.",
+      "categories": ["system"],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/containrrr/watchtower/main/logo.png",
+      "repository": {
+        "url": "https://github.com/calavia-org/portainer-homelab-catalog",
+        "stackfile": "system/watchtower/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "TZ",
+          "label": "Timezone",
+          "description": "Timezone for the container (e.g. Europe/Madrid)",
+          "default": "UTC"
+        },
+        {
+          "name": "WATCHTOWER_CLEANUP",
+          "label": "Remove old images",
+          "description": "Remove old images after updating containers",
+          "default": "true",
+          "select": [
+            {"text": "Yes", "value": "true"},
+            {"text": "No", "value": "false"}
+          ]
+        },
+        {
+          "name": "WATCHTOWER_POLL_INTERVAL",
+          "label": "Poll interval (seconds)",
+          "description": "Interval in seconds between checks for updates",
+          "default": "86400"
+        },
+        {
+          "name": "WATCHTOWER_INCLUDE_STOPPED",
+          "label": "Include stopped containers",
+          "description": "Also check stopped containers for updates",
+          "default": "false",
+          "select": [
+            {"text": "Yes", "value": "true"},
+            {"text": "No", "value": "false"}
+          ]
+        },
+        {
+          "name": "WATCHTOWER_REVIVE_STOPPED",
+          "label": "Revive stopped containers",
+          "description": "Start stopped containers after updating their image",
+          "default": "false",
+          "select": [
+            {"text": "Yes", "value": "true"},
+            {"text": "No", "value": "false"}
+          ]
+        }
+      ],
+      "note": "<b>Watchtower</b> monitors running containers and automatically updates them when a new image version is available. It requires access to the Docker socket."
+    },
+    {
+      "id": 2,
+      "type": 3,
+      "title": "UniFi Controller",
+      "description": "Ubiquiti UniFi Network Management Controller for managing UniFi devices.",
+      "categories": ["network"],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/unifi-logo.png",
+      "repository": {
+        "url": "https://github.com/calavia-org/portainer-homelab-catalog",
+        "stackfile": "network/unifi-controller/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "TZ",
+          "label": "Timezone",
+          "description": "Timezone for the container (e.g. Europe/Madrid)",
+          "default": "UTC"
+        },
+        {
+          "name": "PUID",
+          "label": "User ID (PUID)",
+          "description": "User ID that the container process will run as",
+          "default": "1000"
+        },
+        {
+          "name": "PGID",
+          "label": "Group ID (PGID)",
+          "description": "Group ID that the container process will run as",
+          "default": "1000"
+        },
+        {
+          "name": "MONGO_USER",
+          "label": "MongoDB username",
+          "description": "Username for the MongoDB database",
+          "default": "unifi"
+        },
+        {
+          "name": "MONGO_PASS",
+          "label": "MongoDB password",
+          "description": "Password for the MongoDB database"
+        }
+      ],
+      "note": "<b>UniFi Controller</b> web interface is available at <a href='https://localhost:8443' target='_blank'>https://localhost:8443</a>. On first run, follow the setup wizard to configure your network."
+    },
+    {
+      "id": 3,
+      "type": 3,
+      "title": "Prometheus & Loki",
+      "description": "Full monitoring stack: Prometheus for metrics, Loki for log aggregation, Promtail for log shipping, and Grafana for visualization.",
+      "categories": ["monitoring"],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png",
+      "repository": {
+        "url": "https://github.com/calavia-org/portainer-homelab-catalog",
+        "stackfile": "monitoring/prometheus-loki/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "PROMETHEUS_RETENTION",
+          "label": "Prometheus retention period",
+          "description": "How long Prometheus keeps metrics data (e.g. 15d, 30d)",
+          "default": "15d"
+        },
+        {
+          "name": "GRAFANA_ADMIN_USER",
+          "label": "Grafana admin username",
+          "description": "Username for the Grafana admin account",
+          "default": "admin"
+        },
+        {
+          "name": "GRAFANA_ADMIN_PASSWORD",
+          "label": "Grafana admin password",
+          "description": "Password for the Grafana admin account"
+        }
+      ],
+      "note": "<ul><li><b>Prometheus</b>: <a href='http://localhost:9090' target='_blank'>http://localhost:9090</a></li><li><b>Loki</b>: <a href='http://localhost:3100' target='_blank'>http://localhost:3100</a></li><li><b>Grafana</b>: <a href='http://localhost:3000' target='_blank'>http://localhost:3000</a> — add Prometheus (<code>http://prometheus:9090</code>) and Loki (<code>http://loki:3100</code>) as data sources.</li></ul>"
+    }
+  ]
+}
