@@ -1,8 +1,11 @@
 services:
   unifi-controller:
-    image: lscr.io/linuxserver/unifi-network-application:latest
+    image: lscr.io/linuxserver/unifi-network-application:10.3.58
     container_name: unifi-controller
     restart: unless-stopped
+    networks:
+      qnet:
+        mac_address: "02:00:00:00:00:02"
     ports:
       - 8443:8443
       - 3478:3478/udp
@@ -18,35 +21,51 @@ services:
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
-      - TZ=${TZ:-UTC}
+      - TZ=${TZ:-Europe/Madrid}
       - MONGO_USER=${MONGO_USER:-unifi}
       - MONGO_PASS=${MONGO_PASS:-unifi}
       - MONGO_HOST=unifi-db
       - MONGO_PORT=27017
       - MONGO_DBNAME=unifi
+      - MEM_LIMIT=${UNIFI_MEM_HEAP:-3072m}
     depends_on:
       unifi-db:
         condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: ${UNIFI_CPU_LIMIT:-2}
+          memory: ${UNIFI_MEM_LIMIT:-4G}
 
   unifi-db:
-    image: mongo:4.4
+    image: mongo:7.0
     container_name: unifi-db
     restart: unless-stopped
+    networks:
+      - qnet
     volumes:
       - unifi-db-data:/data/db
-      - unifi-db-init:/docker-entrypoint-initdb.d
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER:-unifi}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS:-unifi}
       - MONGO_INITDB_DATABASE=unifi
     healthcheck:
-      test: ["CMD", "mongo", "--quiet", "--eval", "db.adminCommand('ping')"]
+      test: mongosh --quiet -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD" --authenticationDatabase admin --eval "db.adminCommand('ping')"
       interval: 10s
       timeout: 5s
       retries: 6
       start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+
+networks:
+  qnet:
+    external: true
+    name: qnet-static-bond0-0094fd
 
 volumes:
   unifi-data:
   unifi-db-data:
-  unifi-db-init:

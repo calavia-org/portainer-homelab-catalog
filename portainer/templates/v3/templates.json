@@ -63,7 +63,7 @@
       "id": 2,
       "type": 3,
       "title": "UniFi Controller",
-      "description": "Ubiquiti UniFi Network Management Controller for managing UniFi devices.",
+      "description": "Ubiquiti UniFi Network Management Controller for managing UniFi devices. Uses qnet network with fixed MAC and MongoDB 7.0.",
       "categories": ["network"],
       "platform": "linux",
       "logo": "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/unifi-logo.png",
@@ -76,19 +76,19 @@
           "name": "TZ",
           "label": "Timezone",
           "description": "Timezone for the container (e.g. Europe/Madrid)",
-          "default": "UTC"
+          "default": "Europe/Madrid"
         },
         {
           "name": "PUID",
           "label": "User ID (PUID)",
           "description": "User ID that the container process will run as",
-          "default": "1000"
+          "default": "0"
         },
         {
           "name": "PGID",
           "label": "Group ID (PGID)",
           "description": "Group ID that the container process will run as",
-          "default": "1000"
+          "default": "0"
         },
         {
           "name": "MONGO_USER",
@@ -100,9 +100,27 @@
           "name": "MONGO_PASS",
           "label": "MongoDB password",
           "description": "Password for the MongoDB database"
+        },
+        {
+          "name": "UNIFI_CPU_LIMIT",
+          "label": "CPU limit (cores)",
+          "description": "Maximum number of CPU cores for UniFi",
+          "default": "2"
+        },
+        {
+          "name": "UNIFI_MEM_LIMIT",
+          "label": "Memory limit",
+          "description": "Maximum memory for UniFi container (e.g. 4G)",
+          "default": "4G"
+        },
+        {
+          "name": "UNIFI_MEM_HEAP",
+          "label": "Java heap limit",
+          "description": "Maximum Java heap memory for UniFi (e.g. 3072m)",
+          "default": "3072m"
         }
       ],
-      "note": "<b>UniFi Controller</b> web interface is available at <a href='https://localhost:8443' target='_blank'>https://localhost:8443</a>. On first run, follow the setup wizard to configure your network."
+      "note": "<b>UniFi Controller</b> web interface at <a href='https://localhost:8443' target='_blank'>https://localhost:8443</a>.<br><br>This stack uses <code>qnet-static-bond0-0094fd</code> with a <b>fixed MAC</b> (<code>02:00:00:00:00:02</code>) and <b>MongoDB 7.0</b>.<br><br>⚠️ This is a <b>fresh install</b> — no migration from old UniFi versions. Set up the controller from the setup wizard on first access."
     },
     {
       "id": 3,
