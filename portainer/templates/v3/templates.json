@@ -99,7 +99,8 @@
         {
           "name": "MONGO_PASS",
           "label": "MongoDB password",
-          "description": "Password for the MongoDB database"
+          "description": "Password for the MongoDB database",
+          "default": "unifi"
         },
         {
           "name": "UNIFI_CPU_LIMIT",
