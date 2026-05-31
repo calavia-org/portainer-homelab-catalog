@@ -160,13 +160,13 @@
           "name": "PUID",
           "label": "User ID (PUID)",
           "description": "User ID that Plex will run as",
-          "default": "1000"
+          "default": "0"
         },
         {
           "name": "PGID",
           "label": "Group ID (PGID)",
           "description": "Group ID that Plex will run as",
-          "default": "1000"
+          "default": "0"
         },
         {
           "name": "PLEX_CLAIM",
