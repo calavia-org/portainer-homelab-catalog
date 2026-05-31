@@ -35,14 +35,15 @@ A Portainer App Templates catalog for homelab self-hosted stacks, organised by c
 1. In Portainer, go to **Settings → App Templates**.
 2. Set the **URL** to:
    ```
-   https://raw.githubusercontent.com/calavia-org/portainer-homelab-catalog/main/template.json
+   https://raw.githubusercontent.com/calavia-org/portainer-homelab-catalog/main/v3/templates.json
    ```
 3. Save settings and navigate to **App Templates** to deploy any stack.
 
 ## Repository structure
 
 ```
-template.json                          # Portainer App Templates catalog (v2)
+v3/
+└── templates.json                     # Portainer App Templates catalog (v3)
 system/
 └── watchtower/
     └── docker-compose.yml
