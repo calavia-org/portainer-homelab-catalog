@@ -18,7 +18,7 @@ services:
       - 32414:32414/udp
     volumes:
       - ${PLEX_CONFIG_PATH:-/Container/pms-config}:/config
-      - plex-transcode:/transcode
+      - ${PLEX_TRANSCODE_PATH:-/share/Multimedia/Transcode}:/transcode
       - ${MEDIA_PATH:-/share/Multimedia}:/data/media
     environment:
       - TZ=${TZ:-Europe/Madrid}
@@ -35,5 +35,3 @@ networks:
     external: true
     name: qnet-static-bond0-0094fd
 
-volumes:
-  plex-transcode:

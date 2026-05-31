@@ -185,6 +185,12 @@
           "default": "/Container/pms-config"
         },
         {
+          "name": "PLEX_TRANSCODE_PATH",
+          "label": "Plex transcode path",
+          "description": "Path for Plex transcoding temporary files on the NAS",
+          "default": "/share/Multimedia/Transcode"
+        },
+        {
           "name": "MEDIA_PATH",
           "label": "Media path",
           "description": "Path to your media folder on the NAS",
