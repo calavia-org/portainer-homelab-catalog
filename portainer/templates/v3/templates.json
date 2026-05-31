@@ -182,7 +182,7 @@
           "name": "PLEX_CONFIG_PATH",
           "label": "Plex config path",
           "description": "Path where Plex configuration will be stored on the NAS",
-          "default": "/Container/pms-config"
+          "default": "/share/Container/pms-config"
         },
         {
           "name": "PLEX_TRANSCODE_PATH",

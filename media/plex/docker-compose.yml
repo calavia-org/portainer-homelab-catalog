@@ -17,7 +17,7 @@ services:
       - 32413:32413/udp
       - 32414:32414/udp
     volumes:
-      - ${PLEX_CONFIG_PATH:-/Container/pms-config}:/config
+      - ${PLEX_CONFIG_PATH:-/share/Container/pms-config}:/config
       - ${PLEX_TRANSCODE_PATH:-/share/Multimedia/Transcode}:/transcode
       - ${MEDIA_PATH:-/share/Multimedia}:/data/media
     environment:
