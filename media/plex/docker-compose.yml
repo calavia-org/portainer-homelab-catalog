@@ -17,23 +17,24 @@ services:
       - 32413:32413/udp
       - 32414:32414/udp
     volumes:
-      - ${PLEX_CONFIG_PATH:-/Container/pms-config}:/config
-      - plex-transcode:/transcode
+      - ${PLEX_CONFIG_PATH:-/share/Container/pms-config}:/config
+      - ${PLEX_TRANSCODE_PATH:-/share/Multimedia/Transcode}:/transcode
       - ${MEDIA_PATH:-/share/Multimedia}:/data/media
     environment:
       - TZ=${TZ:-Europe/Madrid}
       - PLEX_CLAIM=${PLEX_CLAIM:-}
-      - ADVERTISE_IP=${ADVERTISE_IP:-}
+      - ADVERTISE_IP=${ADVERTISE_IP:-https://plex.calavia.org}
       - PLEX_UID=${PUID:-1000}
       - PLEX_GID=${PGID:-1000}
       - CHANGE_CONFIG_DIR_OWNERSHIP=true
-    devices:
-      - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        limits:
+          cpus: ${PLEX_CPU_LIMIT:-2}
+          memory: ${PLEX_MEM_LIMIT:-8G}
 
 networks:
   qnet:
     external: true
     name: qnet-static-bond0-0094fd
 
-volumes:
-  plex-transcode:
