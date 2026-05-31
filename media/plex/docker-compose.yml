@@ -24,8 +24,8 @@ services:
       - TZ=${TZ:-Europe/Madrid}
       - PLEX_CLAIM=${PLEX_CLAIM:-}
       - ADVERTISE_IP=${ADVERTISE_IP:-https://plex.calavia.org}
-      - PLEX_UID=${PUID:-1000}
-      - PLEX_GID=${PGID:-1000}
+      - PLEX_UID=${PUID:-0}
+      - PLEX_GID=${PGID:-0}
       - CHANGE_CONFIG_DIR_OWNERSHIP=true
     deploy:
       resources:
