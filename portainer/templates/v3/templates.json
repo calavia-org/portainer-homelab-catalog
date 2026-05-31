@@ -177,7 +177,7 @@
           "name": "ADVERTISE_IP",
           "label": "Advertise IP",
           "description": "IP or DNS advertised for remote access (e.g. http://plex.calavia.org:32400)",
-          "default": "http://plex.calavia.org:32400"
+          "default": "https://plex.calavia.org"
         },
         {
           "name": "PLEX_CONFIG_PATH",
