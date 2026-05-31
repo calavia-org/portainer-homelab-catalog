@@ -1,0 +1,39 @@
+name: Stack Deployment Tests
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test-watchtower:
+    name: Watchtower
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test Watchtower stack
+        run: bash tests/test-watchtower.sh
+
+  test-unifi:
+    name: UniFi Controller
+    runs-on: ubuntu-latest
+    env:
+      MONGO_USER: unifi
+      MONGO_PASS: testpass
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test UniFi stack
+        run: bash tests/test-unifi.sh
+
+  test-monitoring:
+    name: Prometheus + Loki
+    runs-on: ubuntu-latest
+    env:
+      GRAFANA_ADMIN_PASSWORD: testpass
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test monitoring stack
+        run: bash tests/test-monitoring.sh
