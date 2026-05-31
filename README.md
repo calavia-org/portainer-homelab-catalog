@@ -16,6 +16,12 @@ A Portainer App Templates catalog for homelab self-hosted stacks, organised by c
 |-------|-------------|
 | [UniFi Controller](network/unifi-controller/docker-compose.yml) | Ubiquiti UniFi Network Management Controller for managing UniFi devices |
 
+### 🎬 Media
+
+| Stack | Description |
+|-------|-------------|
+| [Plex Media Server](media/plex/docker-compose.yml) | Stream your media library to any device. Uses `qnet-static-bond0-0094fd` with a fixed MAC address. |
+
 ### 📊 Monitoring
 
 | Stack | Description |
@@ -42,6 +48,9 @@ system/
     └── docker-compose.yml
 network/
 └── unifi-controller/
+    └── docker-compose.yml
+media/
+└── plex/
     └── docker-compose.yml
 monitoring/
 └── prometheus-loki/

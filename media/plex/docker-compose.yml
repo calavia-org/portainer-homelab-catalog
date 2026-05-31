@@ -1,0 +1,39 @@
+services:
+  plex:
+    image: plexinc/pms-docker:latest
+    container_name: plex
+    restart: unless-stopped
+    networks:
+      qnet:
+        mac_address: "02:00:00:00:00:01"
+    ports:
+      - 32400:32400
+      - 3005:3005
+      - 8324:8324
+      - 32469:32469
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+    volumes:
+      - ${PLEX_CONFIG_PATH:-/Container/pms-config}:/config
+      - plex-transcode:/transcode
+      - ${MEDIA_PATH:-/share/Multimedia}:/data/media
+    environment:
+      - TZ=${TZ:-Europe/Madrid}
+      - PLEX_CLAIM=${PLEX_CLAIM:-}
+      - ADVERTISE_IP=${ADVERTISE_IP:-}
+      - PLEX_UID=${PUID:-1000}
+      - PLEX_GID=${PGID:-1000}
+      - CHANGE_CONFIG_DIR_OWNERSHIP=true
+    devices:
+      - /dev/dri:/dev/dri
+
+networks:
+  qnet:
+    external: true
+    name: qnet-static-bond0-0094fd
+
+volumes:
+  plex-transcode:

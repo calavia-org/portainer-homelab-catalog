@@ -136,6 +136,62 @@
         }
       ],
       "note": "<ul><li><b>Prometheus</b>: <a href='http://localhost:9090' target='_blank'>http://localhost:9090</a></li><li><b>Loki</b>: <a href='http://localhost:3100' target='_blank'>http://localhost:3100</a></li><li><b>Grafana</b>: <a href='http://localhost:3000' target='_blank'>http://localhost:3000</a> — add Prometheus (<code>http://prometheus:9090</code>) and Loki (<code>http://loki:3100</code>) as data sources.</li></ul>"
+    },
+    {
+      "id": 4,
+      "type": 3,
+      "title": "Plex Media Server",
+      "description": "Plex Media Server: stream your media library to any device. Uses the qnet network with a fixed MAC address.",
+      "categories": ["media"],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/plexinc/pms-docker/master/img/plex-logo.png",
+      "repository": {
+        "url": "https://github.com/calavia-org/portainer-homelab-catalog",
+        "stackfile": "media/plex/docker-compose.yml"
+      },
+      "env": [
+        {
+          "name": "TZ",
+          "label": "Timezone",
+          "description": "Timezone for the container (e.g. Europe/Madrid)",
+          "default": "Europe/Madrid"
+        },
+        {
+          "name": "PUID",
+          "label": "User ID (PUID)",
+          "description": "User ID that Plex will run as",
+          "default": "1000"
+        },
+        {
+          "name": "PGID",
+          "label": "Group ID (PGID)",
+          "description": "Group ID that Plex will run as",
+          "default": "1000"
+        },
+        {
+          "name": "PLEX_CLAIM",
+          "label": "Plex Claim Token",
+          "description": "Get your claim token from https://plex.tv/claim (required on first run)"
+        },
+        {
+          "name": "ADVERTISE_IP",
+          "label": "Advertise IP",
+          "description": "IP advertised for remote access (e.g. http://192.168.1.100:32400)"
+        },
+        {
+          "name": "PLEX_CONFIG_PATH",
+          "label": "Plex config path",
+          "description": "Path where Plex configuration will be stored on the NAS",
+          "default": "/Container/pms-config"
+        },
+        {
+          "name": "MEDIA_PATH",
+          "label": "Media path",
+          "description": "Path to your media folder on the NAS",
+          "default": "/share/Multimedia"
+        }
+      ],
+      "note": "<b>Plex Media Server</b> web interface at <a href='http://localhost:32400/web' target='_blank'>http://localhost:32400/web</a>.<br><br>This stack uses the <code>qnet-static-bond0-0094fd</code> network with a <b>fixed MAC address</b> (<code>02:00:00:00:00:01</code>) so Plex does not generate a new identity on each restart.<br><br><b>First run:</b> Get a claim token at <a href='https://plex.tv/claim' target='_blank'>https://plex.tv/claim</a> and set it in the environment variable <code>PLEX_CLAIM</code>.<br><br>Hardware transcoding via <code>/dev/dri</code> is enabled if available on your NAS (Intel Quick Sync).<br><br>To add more media paths, go to <b>Volumes</b> in the advanced deployment view and add additional bind mounts."
     }
   ]
 }
