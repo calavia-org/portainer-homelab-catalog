@@ -27,8 +27,11 @@ services:
       - PLEX_UID=${PUID:-1000}
       - PLEX_GID=${PGID:-1000}
       - CHANGE_CONFIG_DIR_OWNERSHIP=true
-    devices:
-      - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        limits:
+          cpus: ${PLEX_CPU_LIMIT:-2}
+          memory: ${PLEX_MEM_LIMIT:-8G}
 
 networks:
   qnet:

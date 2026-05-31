@@ -191,6 +191,18 @@
           "default": "/share/Multimedia/Transcode"
         },
         {
+          "name": "PLEX_CPU_LIMIT",
+          "label": "CPU limit (cores)",
+          "description": "Maximum number of CPU cores Plex can use",
+          "default": "2"
+        },
+        {
+          "name": "PLEX_MEM_LIMIT",
+          "label": "Memory limit",
+          "description": "Maximum memory Plex can use (e.g. 8G, 4096M)",
+          "default": "8G"
+        },
+        {
           "name": "MEDIA_PATH",
           "label": "Media path",
           "description": "Path to your media folder on the NAS",
