@@ -1,64 +1,7 @@
 {
   "version": "2",
   "templates": [
-    {
-      "id": 1,
-      "type": 3,
-      "title": "Watchtower",
-      "description": "Automatically update running Docker containers to the latest image version.",
-      "categories": ["system"],
-      "platform": "linux",
-      "logo": "https://raw.githubusercontent.com/containrrr/watchtower/main/logo.png",
-      "repository": {
-        "url": "https://github.com/calavia-org/portainer-homelab-catalog",
-        "stackfile": "system/watchtower/docker-compose.yml"
-      },
-      "env": [
-        {
-          "name": "TZ",
-          "label": "Timezone",
-          "description": "Timezone for the container (e.g. Europe/Madrid)",
-          "default": "UTC"
-        },
-        {
-          "name": "WATCHTOWER_CLEANUP",
-          "label": "Remove old images",
-          "description": "Remove old images after updating containers",
-          "default": "true",
-          "select": [
-            {"text": "Yes", "value": "true"},
-            {"text": "No", "value": "false"}
-          ]
-        },
-        {
-          "name": "WATCHTOWER_POLL_INTERVAL",
-          "label": "Poll interval (seconds)",
-          "description": "Interval in seconds between checks for updates",
-          "default": "86400"
-        },
-        {
-          "name": "WATCHTOWER_INCLUDE_STOPPED",
-          "label": "Include stopped containers",
-          "description": "Also check stopped containers for updates",
-          "default": "false",
-          "select": [
-            {"text": "Yes", "value": "true"},
-            {"text": "No", "value": "false"}
-          ]
-        },
-        {
-          "name": "WATCHTOWER_REVIVE_STOPPED",
-          "label": "Revive stopped containers",
-          "description": "Start stopped containers after updating their image",
-          "default": "false",
-          "select": [
-            {"text": "Yes", "value": "true"},
-            {"text": "No", "value": "false"}
-          ]
-        }
-      ],
-      "note": "<b>Watchtower</b> monitors running containers and automatically updates them when a new image version is available. It requires access to the Docker socket."
-    },
+
     {
       "id": 2,
       "type": 3,
@@ -100,7 +43,7 @@
           "name": "MONGO_PASS",
           "label": "MongoDB password",
           "description": "Password for the MongoDB database",
-          "default": "unifi"
+          "default": "unifi-db-password"
         },
         {
           "name": "UNIFI_CPU_LIMIT",
@@ -119,43 +62,35 @@
           "label": "Java heap limit",
           "description": "Maximum Java heap memory for UniFi (e.g. 3072m)",
           "default": "3072m"
-        }
-      ],
-      "note": "<b>UniFi Controller</b> web interface at <a href='https://localhost:8443' target='_blank'>https://localhost:8443</a>.<br><br>This stack uses <code>qnet-static-bond0-0094fd</code> with a <b>fixed MAC</b> (<code>02:00:00:00:00:02</code>) and <b>MongoDB 7.0</b>.<br><br>⚠️ This is a <b>fresh install</b> — no migration from old UniFi versions. Set up the controller from the setup wizard on first access."
-    },
-    {
-      "id": 3,
-      "type": 3,
-      "title": "Prometheus & Loki",
-      "description": "Full monitoring stack: Prometheus for metrics, Loki for log aggregation, Promtail for log shipping, and Grafana for visualization.",
-      "categories": ["monitoring"],
-      "platform": "linux",
-      "logo": "https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png",
-      "repository": {
-        "url": "https://github.com/calavia-org/portainer-homelab-catalog",
-        "stackfile": "monitoring/prometheus-loki/docker-compose.yml"
-      },
-      "env": [
-        {
-          "name": "PROMETHEUS_RETENTION",
-          "label": "Prometheus retention period",
-          "description": "How long Prometheus keeps metrics data (e.g. 15d, 30d)",
-          "default": "15d"
         },
         {
-          "name": "GRAFANA_ADMIN_USER",
-          "label": "Grafana admin username",
-          "description": "Username for the Grafana admin account",
-          "default": "admin"
+          "name": "UNIFI_CONFIG_PATH",
+          "label": "UniFi config path",
+          "description": "Host path where UniFi controller config will be persisted",
+          "default": "/share/Container/unifi-controller/config"
         },
         {
-          "name": "GRAFANA_ADMIN_PASSWORD",
-          "label": "Grafana admin password",
-          "description": "Password for the Grafana admin account"
+          "name": "UNIFI_DB_PATH",
+          "label": "MongoDB data path",
+          "description": "Host path where MongoDB data will be persisted",
+          "default": "/share/Container/unifi-controller/db"
+        },
+        {
+          "name": "UNIFI_BACKUP_PATH",
+          "label": "Backup path",
+          "description": "Host path where automatic backups are stored",
+          "default": "/share/Container/unifi-controller/backups"
+        },
+        {
+          "name": "UNIFI_BACKUP_RETENTION",
+          "label": "Backup retention",
+          "description": "Number of backups to keep (older ones are rotated out)",
+          "default": "7"
         }
       ],
-      "note": "<ul><li><b>Prometheus</b>: <a href='http://localhost:9090' target='_blank'>http://localhost:9090</a></li><li><b>Loki</b>: <a href='http://localhost:3100' target='_blank'>http://localhost:3100</a></li><li><b>Grafana</b>: <a href='http://localhost:3000' target='_blank'>http://localhost:3000</a> — add Prometheus (<code>http://prometheus:9090</code>) and Loki (<code>http://loki:3100</code>) as data sources.</li></ul>"
+      "note": "<b>UniFi Controller</b> web interface at <a href='https://localhost:8443' target='_blank'>https://localhost:8443</a>.<br><br>This stack uses <code>qnet-static-bond0-0094fd</code> with a <b>fixed MAC</b> (<code>02:00:00:00:00:02</code>) and <b>MongoDB 7.0</b>.<br><br>⚠️ This is a <b>fresh install</b> — no migration from old UniFi versions. Set up the controller from the setup wizard on first access.<br><br><b>Safe upgrades &amp; rollback</b><br>A one-shot <code>unifi-backup</code> container runs before the controller on every deploy. It compares the current controller image tag against the last backed-up version:<ul><li><b>Upgrade</b> (new tag): automatically creates a <code>mongodump</code> + config archive.</li><li><b>Downgrade</b> (revert to a previously deployed tag): automatically restores the matching backup.</li><li><b>No change</b>: skips instantly.</li></ul>The last 7 backups are kept by default.<br><br><b>Manual rollback</b> (if auto-restore is not desired):<ol><li>Stop the stack in Portainer.</li><li>Identify the backup timestamp folder from <b>before</b> the upgrade.</li><li>Restore MongoDB: <code>docker run --rm -v /backup/path:/backups mongo:7.0 mongorestore --drop --host=unifi-db -u unifi -p &lt;pass&gt; --authenticationDatabase=admin /backups/&lt;timestamp&gt;/mongo</code></li><li>Extract the config archive: <code>tar xzf /backup/path/&lt;timestamp&gt;/unifi-config.tar.gz -C /config/path</code></li><li>Edit the <code>docker-compose.yml</code> image tag back to the previous version, commit, and redeploy via GitOps.</li></ol>"
     },
+
     {
       "id": 4,
       "type": 3,

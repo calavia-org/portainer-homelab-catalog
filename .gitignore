@@ -1,0 +1,5 @@
+# Do not commit environment files — defaults live in docker-compose.yml and templates.json
+.env
+
+# OpenCode / opencode internal files
+.omo/
