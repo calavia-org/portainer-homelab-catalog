@@ -4,7 +4,7 @@ services:
     container_name: unifi-backup
     restart: "no"
     networks:
-      - qnet
+      - unifi-internal
     volumes:
       - ${UNIFI_BACKUP_PATH:-/share/Container/unifi-controller/backups}:/backups
       - ${UNIFI_CONFIG_PATH:-/share/Container/unifi-controller/config}:/unifi-config
@@ -28,6 +28,7 @@ services:
     networks:
       qnet:
         mac_address: "02:00:00:00:00:02"
+      unifi-internal:
     ports:
       - 8443:8443
       - 3478:3478/udp
@@ -66,7 +67,7 @@ services:
     container_name: unifi-db
     restart: unless-stopped
     networks:
-      - qnet
+      - unifi-internal
     volumes:
       - ${UNIFI_DB_PATH:-/share/Container/unifi-controller/db}:/data/db
       - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
@@ -90,3 +91,5 @@ networks:
   qnet:
     external: true
     name: qnet-static-bond0-0094fd
+  unifi-internal:
+    driver: bridge
