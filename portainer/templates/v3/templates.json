@@ -60,8 +60,8 @@
         {
           "name": "UNIFI_MEM_HEAP",
           "label": "Java heap limit",
-          "description": "Maximum Java heap memory for UniFi (e.g. 3072m)",
-          "default": "3072m"
+          "description": "Maximum Java heap memory for UniFi in MB (e.g. 3072)",
+          "default": "3072"
         },
         {
           "name": "UNIFI_CONFIG_PATH",

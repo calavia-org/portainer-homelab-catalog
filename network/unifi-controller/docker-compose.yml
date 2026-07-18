@@ -50,7 +50,7 @@ services:
       MONGO_HOST: unifi-db
       MONGO_PORT: 27017
       MONGO_DBNAME: unifi
-      MEM_LIMIT: ${UNIFI_MEM_HEAP:-3072m}
+      MEM_LIMIT: ${UNIFI_MEM_HEAP:-3072}
     depends_on:
       unifi-backup:
         condition: service_completed_successfully
