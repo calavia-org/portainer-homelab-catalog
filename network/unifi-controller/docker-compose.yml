@@ -75,7 +75,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS:-unifi-db-password}
       MONGO_INITDB_DATABASE: unifi
     healthcheck:
-      test: mongosh --quiet -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD" --authenticationDatabase admin --eval "db.adminCommand('ping')"
+      test: mongo --quiet -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD" --authenticationDatabase admin --eval "db.adminCommand('ping')"
       interval: 10s
       timeout: 5s
       retries: 6
