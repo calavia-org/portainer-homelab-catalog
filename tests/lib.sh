@@ -47,7 +47,7 @@ docker_network_remove() {
 # ---------------------------------------------------------------------------
 
 # Wait until a container reaches the 'running' state.
-# Usage: wait_for_container unifi-controller 60
+# Usage: wait_for_container unifi-network-app 60
 wait_for_container() {
     local name="$1"
     local timeout="${2:-60}"

@@ -37,14 +37,14 @@ docker exec unifi-db mongosh \
 echo "--- Phase 2: Starting full stack"
 docker compose up -d
 
-wait_for_container unifi-controller 60
+wait_for_container unifi-network-app 60
 
 echo "--- Phase 3: Testing backup on upgrade and restore on downgrade"
 
-ORIGINAL_TAG=$(grep -A1 'unifi-controller:' docker-compose.yml | grep 'image:' | sed 's/.*image: *//' | tr -d '"')
+ORIGINAL_TAG=$(grep -A1 'unifi-network-app:' docker-compose.yml | grep 'image:' | sed 's/.*image: *//' | tr -d '"')
 UPGRADE_TAG="${ORIGINAL_TAG}-test"
 
-docker compose stop unifi-controller unifi-backup
+docker compose stop unifi-network-app unifi-backup
 
 COMPOSE_BACKUP=$(mktemp)
 cp docker-compose.yml "$COMPOSE_BACKUP"

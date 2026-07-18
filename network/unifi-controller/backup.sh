@@ -10,7 +10,7 @@ set -euo pipefail
 BACKUP_DIR="/backups"
 VERSION_FILE="${BACKUP_DIR}/.last_backup_version"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-CURRENT_VERSION=$(grep -A1 'unifi-controller:' /docker-compose.yml | grep 'image:' | sed 's/.*image: *//' | tr -d '"')
+CURRENT_VERSION=$(grep -A1 'unifi-network-app:' /docker-compose.yml | grep 'image:' | sed 's/.*image: *//' | tr -d '"')
 if [ -z "$CURRENT_VERSION" ]; then
     echo "[error] Could not read controller image tag from /docker-compose.yml"
     exit 1

@@ -21,9 +21,9 @@ services:
         condition: service_healthy
     entrypoint: ["/bin/bash", "/backup.sh"]
 
-  unifi-controller:
+  unifi-network-app:
     image: lscr.io/linuxserver/unifi-network-application:10.3.58
-    container_name: unifi-controller
+    container_name: unifi-network-app
     restart: unless-stopped
     networks:
       qnet:
