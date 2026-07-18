@@ -100,7 +100,7 @@ The UniFi stack includes a `unifi-backup` one-shot service that runs before the 
 **Rollback procedure** (documented in the templates.json note field):
 1. Stop the stack in Portainer.
 2. Identify the pre-upgrade backup timestamp folder.
-3. Restore MongoDB: `docker run --rm -v <backup-path>:/backups mongo:7.0 mongorestore --drop --host=unifi-db -u <user> -p <pass> --authenticationDatabase=admin /backups/<timestamp>/mongo`
+3. Restore MongoDB: `docker run --rm -v <backup-path>:/backups mongo:4.4 mongorestore --drop --host=unifi-db -u <user> -p <pass> --authenticationDatabase=admin /backups/<timestamp>/mongo`
 4. Extract config archive: `tar xzf <backup-path>/<timestamp>/unifi-config.tar.gz -C <config-path>`
 5. Revert the image tag in `docker-compose.yml`, commit, and push to git. Portainer will auto-deploy on next refresh.
 
@@ -111,5 +111,5 @@ The UniFi stack includes a `unifi-backup` one-shot service that runs before the 
 ## NOTES
 
 - Portainer reads `templates.json` directly from the raw GitHub URL; changes are live after merge to `main`
-- MongoDB 7.0 is pinned for UniFi — do not downgrade, older UniFi versions may fail
+- MongoDB 4.4 is used for compatibility with CPUs lacking AVX support (required by MongoDB 5.0+)
 - Plex hardware transcoding mounts `/dev/dri` — verify NAS has Intel Quick Sync before enabling
