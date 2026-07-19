@@ -71,9 +71,10 @@ COMPOSE_BACKUP=$(mktemp)
 cp docker-compose.yml "$COMPOSE_BACKUP"
 
 echo "--- Simulating upgrade to new tag: ${UPGRADE_TAG}"
-# Fix ownership after container wrote root-owned files
-chmod 777 "${UNIFI_BACKUP_PATH}" 2>/dev/null || true
-echo "$ORIGINAL_TAG" > "${UNIFI_BACKUP_PATH}/.last_backup_version"
+# .last_backup_version may be root-owned from Phase 2 — write via existing container
+if ! echo "$ORIGINAL_TAG" > "${UNIFI_BACKUP_PATH}/.last_backup_version" 2>/dev/null; then
+    docker exec unifi-db sh -c "echo '$ORIGINAL_TAG' > /tmp/.last_backup_version" && docker cp unifi-db:/tmp/.last_backup_version "${UNIFI_BACKUP_PATH}/.last_backup_version"
+fi
 sed "s|image: ${ORIGINAL_TAG}|image: ${UPGRADE_TAG}|g" docker-compose.yml > docker-compose.yml.tmp && mv docker-compose.yml.tmp docker-compose.yml
 docker rm -f unifi-backup 2>/dev/null || true
 docker compose up -d unifi-backup
