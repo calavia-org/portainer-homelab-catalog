@@ -21,7 +21,7 @@ cd "$STACK_DIR"
 
 QNET="qnet-static-bond0-0094fd"
 docker_network_ensure "$QNET"
-trap 'full_cleanup "${QNET}" "${UNIFI_CONFIG_PATH} ${UNIFI_DB_PATH} ${UNIFI_BACKUP_PATH}"' EXIT
+trap 'full_cleanup "${QNET}" "${UNIFI_CONFIG_PATH}" "${UNIFI_DB_PATH}" "${UNIFI_BACKUP_PATH}"' EXIT
 
 echo "--- Phase 1: Starting MongoDB"
 docker compose up -d unifi-db

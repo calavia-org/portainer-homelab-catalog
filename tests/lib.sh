@@ -107,7 +107,9 @@ standard_cleanup() {
 full_cleanup() {
     standard_cleanup
     local net="${1:-}"
-    local temp_dirs="${2:-}"
+    shift || true
     [ -n "$net" ] && docker_network_remove "$net"
-    [ -n "$temp_dirs" ] && rm -rf $temp_dirs
+    for dir in "$@"; do
+        [ -n "$dir" ] && rm -rf "$dir" 2>/dev/null || true
+    done
 }
