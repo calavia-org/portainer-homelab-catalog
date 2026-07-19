@@ -27,7 +27,7 @@ restore_from_backup() {
         --port="${MONGO_PORT}" \
         --username="${MONGO_USER}" \
         --password="${MONGO_PASS}" \
-        --authenticationDatabase=admin \
+        --authenticationDatabase="${MONGO_AUTHSOURCE:-admin}" \
         "${backup_path}/mongo"
 
     echo "[restore] Restoring UniFi config..."
@@ -88,7 +88,7 @@ mongodump \
     --port="${MONGO_PORT}" \
     --username="${MONGO_USER}" \
     --password="${MONGO_PASS}" \
-    --authenticationDatabase=admin \
+    --authenticationDatabase="${MONGO_AUTHSOURCE:-admin}" \
     --out="${BACKUP_PATH}/mongo"
 
 echo "[backup] Archiving UniFi config..."

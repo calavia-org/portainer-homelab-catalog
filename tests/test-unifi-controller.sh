@@ -39,6 +39,20 @@ docker compose up -d
 
 wait_for_container unifi-network-app 60
 
+echo "--- Phase 2a: Verifying UniFi app starts and connects to MongoDB"
+UNIFI_START_DEADLINE=$((SECONDS + 120))
+while [ $SECONDS -lt $UNIFI_START_DEADLINE ]; do
+    if docker logs unifi-network-app 2>&1 | grep -q "Server startup in"; then
+        pass "UniFi application started successfully"
+        break
+    fi
+    if docker logs unifi-network-app 2>&1 | grep -q "AuthenticationFailed"; then
+        fail "UniFi failed to authenticate to MongoDB — check credentials match"
+    fi
+    sleep 5
+done
+[ $SECONDS -lt $UNIFI_START_DEADLINE ] || fail "UniFi application did not start within 120s"
+
 echo "--- Phase 3: Testing backup on upgrade and restore on downgrade"
 
 ORIGINAL_TAG=$(grep -A1 'unifi-network-app:' docker-compose.yml | grep 'image:' | sed 's/.*image: *//' | tr -d '"')
