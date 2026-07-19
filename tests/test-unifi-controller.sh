@@ -17,6 +17,8 @@ export UNIFI_CONFIG_PATH="${UNIFI_CONFIG_PATH:-/tmp/unifi-test/config}"
 export UNIFI_DB_PATH="${UNIFI_DB_PATH:-/tmp/unifi-test/db}"
 export UNIFI_BACKUP_PATH="${UNIFI_BACKUP_PATH:-/tmp/unifi-test/backups}"
 mkdir -p "$UNIFI_CONFIG_PATH" "$UNIFI_DB_PATH" "$UNIFI_BACKUP_PATH"
+# Ensure backup dir is writable by current user (container may create root-owned files)
+chmod 777 "$UNIFI_BACKUP_PATH" 2>/dev/null || true
 cd "$STACK_DIR"
 
 QNET="qnet-static-bond0-0094fd"
