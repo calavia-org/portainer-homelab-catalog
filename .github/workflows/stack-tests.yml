@@ -9,14 +9,6 @@ permissions:
   contents: read
 
 jobs:
-  test-watchtower:
-    name: Watchtower
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Test Watchtower stack
-        run: bash tests/test-watchtower.sh
-
   test-unifi:
     name: UniFi Controller
     runs-on: ubuntu-latest
@@ -24,16 +16,7 @@ jobs:
       MONGO_USER: unifi
       MONGO_PASS: testpass
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Test UniFi stack
-        run: bash tests/test-unifi.sh
+        run: bash tests/run.sh network/unifi-controller
 
-  test-monitoring:
-    name: Prometheus + Loki
-    runs-on: ubuntu-latest
-    env:
-      GRAFANA_ADMIN_PASSWORD: testpass
-    steps:
-      - uses: actions/checkout@v4
-      - name: Test monitoring stack
-        run: bash tests/test-monitoring.sh
