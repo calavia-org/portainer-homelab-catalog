@@ -31,7 +31,7 @@ wait_for_mongodb unifi-db "$MONGO_USER" "$MONGO_PASS" 60
 echo "--- Inserting baseline marker into MongoDB"
 docker exec unifi-db mongo \
   -u "$MONGO_USER" -p "$MONGO_PASS" \
-  --authenticationDatabase admin \
+  --authenticationDatabase unifi \
   --eval 'db.getSiblingDB("unifi").testmarkers.insertOne({marker: "baseline"})'
 
 echo "--- Phase 2: Starting full stack"
@@ -81,7 +81,7 @@ pass "Upgrade backup created at $(dirname "$UPGRADE_BACKUP")"
 echo "--- Simulating data loss after upgrade"
 docker exec unifi-db mongo \
   -u "$MONGO_USER" -p "$MONGO_PASS" \
-  --authenticationDatabase admin \
+  --authenticationDatabase unifi \
   --eval 'db.getSiblingDB("unifi").testmarkers.deleteOne({marker: "baseline"})'
 
 echo "--- Simulating downgrade back to original tag: ${ORIGINAL_TAG}"
@@ -95,7 +95,7 @@ docker wait unifi-backup
 echo "--- Verifying MongoDB was restored to original state"
 RESTORED_MARKER=$(docker exec unifi-db mongo \
   -u "$MONGO_USER" -p "$MONGO_PASS" \
-  --authenticationDatabase admin \
+  --authenticationDatabase unifi \
   --quiet \
   --eval 'db.getSiblingDB("unifi").testmarkers.countDocuments({marker: "baseline"})')
 

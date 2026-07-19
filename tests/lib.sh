@@ -85,7 +85,7 @@ wait_for_mongodb() {
     echo "--- Waiting for MongoDB to accept authenticated connections (up to ${timeout}s)"
     local deadline=$((SECONDS + timeout))
     until docker exec "$container" mongo --quiet -u "$user" -p "$pass" \
-        --authenticationDatabase admin --eval 'db.adminCommand({ping:1})' > /dev/null 2>&1; do
+        --authenticationDatabase unifi --eval 'db.adminCommand({ping:1})' > /dev/null 2>&1; do
         [ $SECONDS -lt $deadline ] || fail "MongoDB did not become reachable within ${timeout}s"
         sleep 3
     done
