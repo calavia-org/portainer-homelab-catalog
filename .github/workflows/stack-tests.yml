@@ -16,7 +16,7 @@ jobs:
       MONGO_USER: unifi
       MONGO_PASS: testpass
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Test UniFi stack
         run: bash tests/run.sh network/unifi-controller
 
