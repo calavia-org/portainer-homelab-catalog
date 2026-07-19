@@ -42,16 +42,21 @@ wait_for_container unifi-network-app 60
 echo "--- Phase 2a: Verifying UniFi app starts and connects to MongoDB"
 UNIFI_START_DEADLINE=$((SECONDS + 180))
 while [ $SECONDS -lt $UNIFI_START_DEADLINE ]; do
-    if docker logs unifi-network-app 2>&1 | grep -qE "Server startup in|Initialization complete"; then
-        pass "UniFi application started successfully"
+    # UniFi logs to files inside container, not stdout — check HTTP port instead
+    HTTP_CODE=$(curl -k -s -o /dev/null -w "%{http_code}" https://localhost:8443 2>/dev/null || true)
+    if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
+        pass "UniFi application started successfully (HTTP ${HTTP_CODE})"
         break
     fi
     if docker logs unifi-network-app 2>&1 | grep -q "AuthenticationFailed"; then
         fail "UniFi failed to authenticate to MongoDB — check credentials match"
     fi
+    if [ "$(docker inspect --format='{{.State.Status}}' unifi-network-app 2>/dev/null)" != "running" ]; then
+        fail "UniFi container stopped unexpectedly"
+    fi
     sleep 5
 done
-[ $SECONDS -lt $UNIFI_START_DEADLINE ] || pass "UniFi application start timed out (may still be initializing)"
+[ $SECONDS -lt $UNIFI_START_DEADLINE ] || fail "UniFi application did not start within 180s"
 
 echo "--- Phase 3: Testing backup on upgrade and restore on downgrade"
 
