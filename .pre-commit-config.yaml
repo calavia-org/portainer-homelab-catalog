@@ -1,0 +1,78 @@
+# Canonical pre-commit configuration for calavia-org repositories.
+#
+# Source of truth: calavia-org/org-standards — github-harness/AGENTS.md, Section 6.
+#
+# Usage:
+#   cp templates/.pre-commit-config.yaml.template <repo>/.pre-commit-config.yaml
+#   pre-commit install --install-hooks
+#   pre-commit install --hook-type commit-msg
+#
+# Copy this file verbatim. Hooks whose file selectors match nothing are skipped
+# automatically, so language-specific hooks (actionlint, ruff, markdownlint) are
+# harmless in repositories that do not contain the relevant files.
+---
+repos:
+  # --- Universal (required for every repository) -----------------------------
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+      - id: no-commit-to-branch
+        args: ['--branch', 'main', '--branch', 'master', '--branch', '/^release\/.+/']
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.0.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args:
+          - feat
+          - fix
+          - docs
+          - style
+          - refactor
+          - perf
+          - test
+          - build
+          - ci
+          - chore
+          - revert
+
+  # --- Documentation (when the repository contains Markdown) ------------------
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.41.0
+    hooks:
+      - id: markdownlint
+        args: ['--disable', 'MD013', 'MD033', 'MD041']
+
+  # --- GitHub Actions (when .github/workflows exists) -------------------------
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
+    hooks:
+      - id: actionlint
+
+  # --- Python (when the repository contains .py files) ------------------------
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # --- Language-specific extras (uncomment and add a config when needed) ------
+  # YAML (Ansible / YAML-heavy repositories):
+  # - repo: https://github.com/adrienverge/yamllint
+  #   rev: v1.38.0
+  #   hooks:
+  #     - id: yamllint
+  #       args: [--strict, -c, .yamllint]
+  #
+  # Ansible (roles / collections):
+  # - repo: https://github.com/ansible/ansible-lint
+  #   rev: v26.4.0
+  #   hooks:
+  #     - id: ansible-lint

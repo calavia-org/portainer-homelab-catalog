@@ -1,0 +1,26 @@
+name: PR Check and Test
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+# checks + pull-requests are required by the reusable workflow's report job to
+# publish check runs and comment on the PR.
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  pr-check-and-test:
+    uses: calavia-org/workflows-lib/.github/workflows/pr-check-and-test.yml@v0
+    with:
+      # Docker Compose stacks only: there is no build, unit or integration suite.
+      run-build: false
+      run-unit-tests: false
+      run-integration-tests: false
+      fail-on-missing: false
+      report-enabled: true
+      comment-on-pr: true
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
