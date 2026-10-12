@@ -4,10 +4,13 @@ on:
   pull_request:
     types: [opened, edited, reopened, synchronize]
 
-# checks + pull-requests are required by the reusable workflow's report job to
-# publish check runs and comment on the PR.
+# contents: write is required by the reusable workflow's pre-release job, and
+# checks + pull-requests by its report job. GitHub validates the called
+# workflow's job permissions against this grant at startup (before any `if:` is
+# evaluated), so contents: write must be present even though ordinary PRs never
+# create a release.
 permissions:
-  contents: read
+  contents: write
   checks: write
   pull-requests: write
 
