@@ -37,4 +37,3 @@ networks:
   qnet:
     external: true
     name: qnet-static-bond0-0094fd
-

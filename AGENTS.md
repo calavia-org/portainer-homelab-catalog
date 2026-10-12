@@ -1,5 +1,7 @@
 # PROJECT KNOWLEDGE BASE
 
+> **MANDATORY READ**: This repository is governed by the organization-wide `AGENTS.md` at `~/Development/Github/AGENTS.md` (calavia-org rules), which takes precedence over anything below. All commits follow [Conventional Commits](https://www.conventionalcommits.org/) and branches use conventional naming prefixes (`feat/`, `fix/`, `chore/`, `docs/`, `refactor/`, `ci/`). All changes land via pull request (squash merge only) — never commit directly to `main`/`master`.
+
 **Generated:** 2026-07-16
 
 ## OVERVIEW
