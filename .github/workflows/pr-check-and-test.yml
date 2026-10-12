@@ -22,6 +22,7 @@ jobs:
       run-build: false
       run-unit-tests: false
       run-integration-tests: false
+      run-tox: false
       fail-on-missing: false
       report-enabled: true
       comment-on-pr: true
